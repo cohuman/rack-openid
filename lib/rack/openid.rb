@@ -45,7 +45,7 @@ module Rack #:nodoc:
           key, *value = pair.split('=')
           value = value.join('=')
           value.gsub!(/^\"/, '').gsub!(/\"$/, "")
-          value = value.split(',')
+          value = value.split(',') unless key == 'return_to'
           params[key] = value.length > 1 ? value : value.first
         }
       end
