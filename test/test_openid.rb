@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'test/unit'
 require 'net/http'
 
@@ -157,6 +158,12 @@ class TestOpenID < Test::Unit::TestCase
     assert_equal 'GET', @response.headers['X-Method']
     assert_equal '/complete', @response.headers['X-Path']
     assert_equal 'success', @response.body
+  end
+
+  def test_with_comma_in_return_to
+    @app = app(:return_to => 'http://example.org/complete#/task/1,/user/2')
+    # this call throws an error if you split on the comma
+    process('/', :method => 'GET')
   end
 
   def test_with_get_nested_params_custom_return_to
